@@ -1,0 +1,20 @@
+{
+  "name": "poem",
+  "version": "0.0.1",
+  "description": "poem for children",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "poem"
+  ],
+  "author": "zhougy",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^1.2.4",
+    "koa-router": "^5.4.0",
+    "mongodb": "^2.2.10",
+    "request": "^2.75.0"
+  }
+}
