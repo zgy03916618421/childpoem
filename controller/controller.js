@@ -17,7 +17,8 @@ exports.myworklist = function *() {
 }
 exports.otherworklist = function *() {
     var pid = this.params.pid;
+    var userid = this.params.userid;
     var skip = parseInt(this.query.skip);
     var limit = parseInt(this.query.limit);
-    var data = yield audioService.otherworklist(pid,skip,limit);
+    yield audioService.otherworklist(pid,userid,skip,limit);
 }
