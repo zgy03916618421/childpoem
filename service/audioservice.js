@@ -4,7 +4,11 @@
 var httpUtil = require('../utils/httpUtils');
 exports.audioinfo = function *(pid,userid) {
     var data = {};
-    var selfAudio = yield mongodb.collection('audio').findOne({'userId':userid,'poemId':pid});
+    var selfAudios = yield mongodb.collection('audio').aggregate([
+        {$match:{'userId':userid,'poemId':pid}},
+        {$sort:{'createTime':-1}}
+    ]).toArray();
+    var selfAudio = selfAudios[0];
     var Acount = yield mongodb.collection('audio').aggregate([
         {$match:{poemId:pid}},
         {$group:{_id:null,count:{$sum:1}}}
