@@ -6,4 +6,4 @@ var router = require('./router/router');
 var app = koa();
 require('./middleware/connectMongo');
 app.use(router.routes()).use(router.allowedMethods());
-app.listen()
+app.listen(3000)
