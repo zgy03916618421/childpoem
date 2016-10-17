@@ -16,6 +16,7 @@ Parms
 GET /dev/childpoem/otherworklist/:pid/:userid
 ```
 Parms
+
 |name|required|type|located in|description|
 |:----:|:--------:|:----:|:----------:|:-----------:|
 |pid|true|string|params|诗歌id|
@@ -28,6 +29,7 @@ Parms
 GET /dev/childpoem/myworklist/:pid/:userid
 ```
 Parms
+
 |name|required|type|located in|description|
 |:----:|:--------:|:----:|:----------:|:-----------:|
 |pid|true|string|params|诗歌id|
