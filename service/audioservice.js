@@ -2,6 +2,7 @@
  * Created by Administrator on 2016/10/14.
  */
 var httpUtil = require('../utils/httpUtils');
+var ObjectID = require('mongodb').ObjectID
 exports.audioinfo = function *(pid,userid) {
     var data = {};
     var selfAudios = yield mongodb.collection('audio').aggregate([
@@ -109,15 +110,20 @@ exports.mycomments = function *(userid,skip,limit) {
     }
     var data = yield httpUtil.request(opt);
     var result = JSON.parse(data);
-    console.log(result);
     var mycomments = result.data;
-    console.log(mycomments);
-    for (var i=0;i<mycomments.length;i++){
-        var userid = mycomments[i].userId;
-        var userinfo = yield getUserInfo(userid);
-        mycomments[i].userinfo = userinfo;
+    if(!mycomments.length){
+        return {'head':{code:1000,msg:'no data'}}
+    }else{
+        for(var i = 0;i<mycomments.length;i++){
+            var audioId = mycomments[i].targetId;
+            var audio = yield mongodb.collection('audio').findOne({'_id':ObjectID.createFromHexString(audioId)});
+            mycomments[i].poemname = audio.poemName;
+            var userinfo = yield getUserInfo(audio.userId);
+            mycomments[i].userinfo = userinfo;
+        }
+        return {'head':{code:200,msg:'success'},'data':mycomments}
     }
-    return mycomments;
+
 }
 function *getUserInfo(userid) {
     var opts = {

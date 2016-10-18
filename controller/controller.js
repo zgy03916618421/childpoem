@@ -29,5 +29,5 @@ exports.mycomments = function *() {
     var limit = this.query.limit;
     var userid = this.query.userId;
     var data = yield audioService.mycomments(userid,skip,limit);
-    this.body = {'head':{code:200,msg:'success'},'data':data}
+    this.body = data;
 }
