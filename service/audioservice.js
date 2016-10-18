@@ -21,6 +21,7 @@ exports.audioinfo = function *(pid,userid) {
         data.count = count;
         if(!selfAudio){
             var audio = yield mongodb.collection('audio').findOne({'poemId':pid});
+
             data.audio= audio;
             data.userinfo = yield getUserInfo(audio.userId);
         }else{
@@ -117,7 +118,7 @@ exports.mycomments = function *(userid,skip,limit) {
         for(var i = 0;i<mycomments.length;i++){
             var audioId = mycomments[i].targetId;
             var audio = yield mongodb.collection('audio').findOne({'_id':ObjectID.createFromHexString(audioId)});
-            mycomments[i].poemname = audio.poemName;
+            mycomments[i].poemname = audio.name;
             var userinfo = yield getUserInfo(audio.userId);
             mycomments[i].userinfo = userinfo;
         }
