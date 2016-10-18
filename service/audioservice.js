@@ -101,6 +101,24 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
         return data
     }*/}
 }
+exports.mycomments = function *(userid,skip,limit) {
+    var opt = {
+        method : 'GET',
+        url : 'https://gateway.beautifulreading.com/dev/hummingbird/comments/mine',
+        qs :{skip:skip,limit:limit,userId:userid}
+    }
+    var data = yield httpUtil.request(opt);
+    var result = JSON.parse(data);
+    console.log(result);
+    var mycomments = result.data;
+    console.log(mycomments);
+    for (var i=0;i<mycomments.length;i++){
+        var userid = mycomments[i].userId;
+        var userinfo = yield getUserInfo(userid);
+        mycomments[i].userinfo = userinfo;
+    }
+    return mycomments;
+}
 function *getUserInfo(userid) {
     var opts = {
         method : 'GET',

@@ -24,3 +24,10 @@ exports.otherworklist = function *() {
     var data = yield audioService.otherworklist(pid,userid,skip,limit);
     this.body = data;
 }
+exports.mycomments = function *() {
+    var skip = this.query.skip;
+    var limit = this.query.limit;
+    var userid = this.query.userId;
+    var data = yield audioService.mycomments(userid,skip,limit);
+    this.body = {'head':{code:200,msg:'success'},'data':data}
+}
