@@ -72,7 +72,7 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
     }else{
         for(var i=0;i<elseAudios.length;i++){
             var listen = yield mongodb.collection('action').aggregate([
-                {$match:{"targetId":elseAudios[i]._id,"action":"listen"}},
+                {$match:{"targetId":elseAudios[i]._id.toString(),"action":"listen"}},
                 {$group:{"_id":null,"count":{$sum:1}}}
             ]).toArray();
             if(!listen.length){
@@ -81,7 +81,7 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
                 elseAudios[i].listen = listen.count;
             }
             var comment = yield mongodb.collection('comment').aggregate([
-                {$match:{"targetId":elseAudios[i]._id}},
+                {$match:{"targetId":elseAudios[i]._id.toString()}},
                 {$group:{"_id":null,count:{$sum:1}}}
             ]).toArray();
             if(!comment.length){
