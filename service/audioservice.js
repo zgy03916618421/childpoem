@@ -118,7 +118,7 @@ exports.mycomments = function *(userid,skip,limit) {
         for(var i = 0;i<mycomments.length;i++){
             var audioId = mycomments[i].targetId;
             var audio = yield mongodb.collection('audio').findOne({'_id':ObjectID.createFromHexString(audioId)});
-            mycomments[i].poemname = audio.name;
+            mycomments[i].poemName = audio.name;
             var userinfo = yield getUserInfo(audio.userId);
             mycomments[i].userinfo = userinfo;
         }
