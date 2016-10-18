@@ -36,3 +36,15 @@ Parms
 |userid|true|string|params|当前用户id|
 |skip|true|string|query|跳过条目|
 |limit|true|string|query|获取条目数|
+
+###获取我的评论信息
+```bash
+GET /dev/childpoem/mycomments
+```
+Parms
+
+|name|required|type|located in|description|
+|:----:|:--------:|:----:|:----------:|:-----------:|
+|limit|true|string|query|获取条目数|
+|skip|true|string|query|跳过条目数|
+|userid|true|string|query|用户id|
