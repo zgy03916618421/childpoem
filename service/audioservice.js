@@ -41,9 +41,10 @@ exports.myworklist = function *(pid,userid,skip,limit) {
         return {'head':{code:1000,msg:'no audio'}}
     }else{
         for (var i =0;i<audios.length;i++){
+            console.log(audios[i]._id);
             var listen = yield mongodb.collection('action').aggregate([
-                {$match:{"targetId":audios[i]._id,"action":"listen"}},
-                {$group:{"_id":null,"count":{$sum:1}}}
+                {$match:{"targetId":audios[i]._id.toString(),"action":"listen"}},
+                {$group:{_id:null,count:{$sum:1}}}
             ]).toArray()
             if(!listen.length){
                 audios[i].listen = 0;
@@ -51,14 +52,9 @@ exports.myworklist = function *(pid,userid,skip,limit) {
                 audios[i].listen = listen[0].count;
             }
             var comment = yield mongodb.collection('comment').aggregate([
-                {$match:{"targetId":audios[i]._id}},
-                {$group:{"_id":null,count:{$sum:1}}}
+                {$match:{"targetId":audios[i]._id.toString()}}
             ]).toArray();
-            if (!comment.length){
-                audios[i].comment = 0;
-            }else{
-                audios[i].comment = comment[0].count;
-            }
+            audios[i].comment = comment.length;
         }
         data.audio = audios;
         return {'head':{code:200,msg:'success'},'data':data}
@@ -113,15 +109,4 @@ function *getUserInfo(userid) {
     var userinfo = yield httpUtil.request(opts);
     userinfo = JSON.parse(userinfo);
     return userinfo
-}
-function *getManyUser(userids) {
-    var opt = {
-        method : 'PUT',
-        url : 'https://gateway.beautifulreading.com/dev/squirrel/users',
-        body:{
-            userIds:userids
-        }
-    }
-    var userinfos = yield httpUtil.request(opt);
-    return userinfos;
 }
