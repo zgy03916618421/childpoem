@@ -75,7 +75,6 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
                 {$match:{"targetId":elseAudios[i]._id.toString(),"action":"listen"}},
                 {$group:{"_id":null,"count":{$sum:1}}}
             ]).toArray();
-            console.log(listen);
             if(!listen.length){
                 elseAudios[i].listen = 0;
             }else{
@@ -85,7 +84,6 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
                 {$match:{"targetId":elseAudios[i]._id.toString()}},
                 {$group:{"_id":null,count:{$sum:1}}}
             ]).toArray();
-            console.log(comment);
             if(!comment.length){
                 elseAudios[i].comment = 0;
             }else{
