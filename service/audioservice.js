@@ -75,19 +75,21 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
                 {$match:{"targetId":elseAudios[i]._id.toString(),"action":"listen"}},
                 {$group:{"_id":null,"count":{$sum:1}}}
             ]).toArray();
+            console.log(listen);
             if(!listen.length){
                 elseAudios[i].listen = 0;
             }else{
-                elseAudios[i].listen = listen.count;
+                elseAudios[i].listen = listen[0].count;
             }
             var comment = yield mongodb.collection('comment').aggregate([
                 {$match:{"targetId":elseAudios[i]._id.toString()}},
                 {$group:{"_id":null,count:{$sum:1}}}
             ]).toArray();
+            console.log(comment);
             if(!comment.length){
                 elseAudios[i].comment = 0;
             }else{
-                elseAudios[i].comment = comment.count;
+                elseAudios[i].comment = comment[0].count;
             }
             elseAudios[i].userinfo= yield getUserInfo(elseAudios[i].userId);
         }
