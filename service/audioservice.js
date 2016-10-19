@@ -112,7 +112,7 @@ exports.mycomments = function *(userid,skip,limit) {
     var data = yield httpUtil.request(opt);
     var result = JSON.parse(data);
     var mycomments = result.data;
-    if(!mycomments.length){
+    if(!mycomments){
         return {'head':{code:1000,msg:'no data'}}
     }else{
         for(var i = 0;i<mycomments.length;i++){
