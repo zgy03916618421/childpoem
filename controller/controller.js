@@ -29,6 +29,8 @@ exports.mycomments = function *() {
     var skip = this.query.skip;
     var limit = this.query.limit;
     var userid = this.query.userId;
-    var data = yield audioService.mycomments(userid,skip,limit);
+    var token = this.request.header.token;
+    console.log(token);
+    var data = yield audioService.mycomments(userid,skip,limit,token);
     this.body = data;
 }
