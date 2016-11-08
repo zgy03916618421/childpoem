@@ -26,14 +26,14 @@ exports.audioinfo = function *(pid,userid,token) {
             data.userinfo = yield getUserInfo(audio.userId,token);
         }else{
             data.audio = selfAudio;
-            data.userinfo= yield getUserInfo(userid);
+            data.userinfo= yield getUserInfo(userid,token);
         }
         return {'head':{code:200,msg:'success'},'data':data};
     }
 }
-exports.myworklist = function *(pid,userid,skip,limit) {
+exports.myworklist = function *(pid,userid,skip,limit,token) {
     var data = {};
-    data.userinfo = yield getUserInfo(userid);
+    data.userinfo = yield getUserInfo(userid,token);
     var audios = yield mongodb.collection('audio').aggregate([
         {$match:{"poemId":pid,"userId":userid}},
         {$skip:skip},
@@ -63,7 +63,7 @@ exports.myworklist = function *(pid,userid,skip,limit) {
     }
     
 }
-exports.otherworklist = function *(pid,userid,skip,limit) {
+exports.otherworklist = function *(pid,userid,skip,limit,token) {
     var elseAudios = yield mongodb.collection('audio').aggregate([
         {$match:{"poemId":pid,"userId":{$ne:userid}}},
         {$skip:skip},
@@ -91,7 +91,7 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
             }else{
                 elseAudios[i].comment = comment[0].count;
             }
-            elseAudios[i].userinfo= yield getUserInfo(elseAudios[i].userId);
+            elseAudios[i].userinfo= yield getUserInfo(elseAudios[i].userId,token);
         }
         var data = elseAudios;
         return {'head':{code:200,msg:'success'},'data':data};
@@ -120,7 +120,7 @@ exports.mycomments = function *(userid,skip,limit,token) {
             var audioId = mycomments[i].targetId;
             var audio = yield mongodb.collection('audio').findOne({'_id':ObjectID.createFromHexString(audioId)});
             mycomments[i].poemName = audio.name;
-            var userinfo = yield getUserInfo(audio.userId);
+            var userinfo = yield getUserInfo(audio.userId,token);
             mycomments[i].userinfo = userinfo;
         }
         return {'head':{code:200,msg:'success'},'data':mycomments}
@@ -130,6 +130,7 @@ exports.mycomments = function *(userid,skip,limit,token) {
 function *getUserInfo(userid,token) {
     var opts = {
         method : 'GET',
+        headers:{"token":token},
         url : 'https://dev-users.beautifulreading.com/beautifulreading/userinfo/v3/user/user_id/' + userid
     };
     var userinfo = yield httpUtil.request(opts);

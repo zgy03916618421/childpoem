@@ -14,7 +14,8 @@ exports.myworklist = function *() {
     var userid = this.params.userid;
     var skip = parseInt(this.query.skip);
     var limit = parseInt(this.query.limit);
-    var data = yield audioService.myworklist(pid,userid,skip,limit);
+    var token = this.request.header.token;
+    var data = yield audioService.myworklist(pid,userid,skip,limit,token);
     this.body = data
 }
 exports.otherworklist = function *() {
@@ -22,7 +23,8 @@ exports.otherworklist = function *() {
     var userid = this.params.userid;
     var skip = parseInt(this.query.skip);
     var limit = parseInt(this.query.limit);
-    var data = yield audioService.otherworklist(pid,userid,skip,limit);
+    var token = this.request.header.token;
+    var data = yield audioService.otherworklist(pid,userid,skip,limit,token);
     this.body = data;
 }
 exports.mycomments = function *() {
