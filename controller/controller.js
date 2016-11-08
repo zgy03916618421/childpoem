@@ -5,7 +5,8 @@ var audioService = require('../service/audioservice');
 exports.audioinfo = function *() {
     var pid = this.params.pid;
     var userid = this.params.userid;
-    var data = yield audioService.audioinfo(pid,userid);
+    var token = this.request.header.token;
+    var data = yield audioService.audioinfo(pid,userid,token);
     this.body = data;
 }
 exports.myworklist = function *() {

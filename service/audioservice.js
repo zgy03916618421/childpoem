@@ -3,7 +3,7 @@
  */
 var httpUtil = require('../utils/httpUtils');
 var ObjectID = require('mongodb').ObjectID
-exports.audioinfo = function *(pid,userid) {
+exports.audioinfo = function *(pid,userid,token) {
     var data = {};
     var selfAudios = yield mongodb.collection('audio').aggregate([
         {$match:{'userId':userid,'poemId':pid}},
@@ -23,7 +23,7 @@ exports.audioinfo = function *(pid,userid) {
             var audio = yield mongodb.collection('audio').findOne({'poemId':pid});
 
             data.audio= audio;
-            data.userinfo = yield getUserInfo(audio.userId);
+            data.userinfo = yield getUserInfo(audio.userId,token);
         }else{
             data.audio = selfAudio;
             data.userinfo= yield getUserInfo(userid);
@@ -103,10 +103,11 @@ exports.otherworklist = function *(pid,userid,skip,limit) {
         return data
     }*/}
 }
-exports.mycomments = function *(userid,skip,limit) {
+exports.mycomments = function *(userid,skip,limit,token) {
     var opt = {
         method : 'GET',
         url : 'https://gateway.beautifulreading.com/dev/hummingbird/comments/mine',
+        headers:{'token':token},
         qs :{skip:skip,limit:limit,userId:userid}
     }
     var data = yield httpUtil.request(opt);
@@ -126,7 +127,7 @@ exports.mycomments = function *(userid,skip,limit) {
     }
 
 }
-function *getUserInfo(userid) {
+function *getUserInfo(userid,token) {
     var opts = {
         method : 'GET',
         url : 'https://dev-users.beautifulreading.com/beautifulreading/userinfo/v3/user/user_id/' + userid
