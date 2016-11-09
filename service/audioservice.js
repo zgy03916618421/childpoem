@@ -106,7 +106,7 @@ exports.otherworklist = function *(pid,userid,skip,limit,token)  {
 exports.mycomments = function *(userid,skip,limit,token) {
     var opt = {
         method : 'GET',
-        url : 'https://gateway.beautifulreading.com+'+process.env.ApiGateWayPrefix+'/hummingbird/comments/mine',
+        url : 'https://gateway.beautifulreading.com'+process.env.ApiGateWay+'/hummingbird/comments/mine',
         headers:{'token':token},
         qs :{skip:skip,limit:limit,userId:userid}
     }
