@@ -35,7 +35,7 @@ exports.myworklist = function *(pid,userid,skip,limit,token) {
     var data = {};
     data.userinfo = yield getUserInfo(userid,token);
     var audios = yield mongodb.collection('audio').aggregate([
-        {$match:{"poemId":pid,"userId":userid}},
+        {$match:{"poemId":pid,"userId":userid,"status":{$ne:'disable'}}},
         {$skip:skip},
         {$limit:limit}
     ]).toArray();
