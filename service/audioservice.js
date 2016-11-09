@@ -63,7 +63,7 @@ exports.myworklist = function *(pid,userid,skip,limit,token) {
     }
     
 }
-exports.otherworklist = function *(pid,userid,skip,limit,token) wadwa   {
+exports.otherworklist = function *(pid,userid,skip,limit,token)  {
     var elseAudios = yield mongodb.collection('audio').aggregate([
         {$match:{"poemId":pid,"userId":{$ne:userid}}},
         {$skip:skip},
