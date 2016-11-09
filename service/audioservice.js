@@ -63,7 +63,7 @@ exports.myworklist = function *(pid,userid,skip,limit,token) {
     }
     
 }
-exports.otherworklist = function *(pid,userid,skip,limit,token) {
+exports.otherworklist = function *(pid,userid,skip,limit,token) wadwa   {
     var elseAudios = yield mongodb.collection('audio').aggregate([
         {$match:{"poemId":pid,"userId":{$ne:userid}}},
         {$skip:skip},
@@ -106,7 +106,7 @@ exports.otherworklist = function *(pid,userid,skip,limit,token) {
 exports.mycomments = function *(userid,skip,limit,token) {
     var opt = {
         method : 'GET',
-        url : 'https://gateway.beautifulreading.com/dev/hummingbird/comments/mine',
+        url : 'https://gateway.beautifulreading.com+'+process.env.ApiGateWayPrefix+'/hummingbird/comments/mine',
         headers:{'token':token},
         qs :{skip:skip,limit:limit,userId:userid}
     }
